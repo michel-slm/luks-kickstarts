@@ -1,7 +1,7 @@
 # based on luks-btrfs-minimal
 # + https://fedoraproject.org/wiki/Changes/SwapOnZRAM
 install
-rootpw --plaintext fedora
+rootpw --lock
 auth --enableshadow --passalgo=sha512
 keyboard --vckeymap=us --xlayouts='us'
 lang en_US.UTF-8
