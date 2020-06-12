@@ -26,8 +26,11 @@ repo --name=fedora
 repo --name=updates
 #repo --name=updates-testing
 
+services --enabled=initial-setup
+
 %packages
 @^minimal-environment
+initial-setup
 zram-generator
 %end
 
