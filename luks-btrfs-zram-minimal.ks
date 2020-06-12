@@ -32,6 +32,12 @@ zram-generator
 %end
 
 %post
+# home should be a separate subvolume
+mv /home /tmp/
+btrfs subvolume create /home
+mv /tmp/home/* /home
+rmdir /tmp/home
+
 cat << EOF > /etc/systemd/zram-generator.conf
 [zram0]
 # This section describes the settings for /dev/zram0.
