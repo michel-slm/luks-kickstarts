@@ -30,10 +30,9 @@ services --enabled=initial-setup
 reboot
 
 %packages
-@^minimal-environment
+@^workstation-product-environment
 fedora-workstation-repositories
-initial-setup
-pciutils
+initial-setup-gui
 zram-generator
 %end
 
@@ -98,5 +97,8 @@ memory-limit = none
 # The default is 0.25.
 zram-fraction = 0.5
 EOF
+
+# boot in graphical mode
+systemctl set-default graphical.target
 } 2>&1 | tee /root/postinstall.log > /dev/tty3
 %end
