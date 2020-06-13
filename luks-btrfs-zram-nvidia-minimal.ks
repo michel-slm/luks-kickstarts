@@ -27,18 +27,22 @@ repo --name=updates
 #repo --name=updates-testing
 
 services --enabled=initial-setup
+reboot
 
 %packages
 @^minimal-environment
 fedora-workstation-repositories
 initial-setup
+pciutils
 zram-generator
 %end
 
 %post
+# https://unix.stackexchange.com/a/351755 for handling TTY in anaconda
+printf "Press Alt-F3 to view post-install logs\r\n" > /dev/tty1
+{
 # install RPM Fusion's Nvidia driver on VMs (for testing) and if
 # the GPU is detected
-
 has_nvidia=false
 if /usr/sbin/lspci -mnn | grep -E 'VGA|3D controller' | grep NVIDIA | grep -q 10de; then
   has_nvidia=true
@@ -48,10 +52,10 @@ fi
 systemd-detect-virt >/dev/null && is_virtual=true || is_virtual=false
 
 if $has_nvidia || $is_virtual; then
-  printf "Enabling proprietary Nvidia driver repo\r\n" > /dev/tty1
+  echo "Enabling proprietary Nvidia driver repo"
   dnf config-manager --set-enabled \
     rpmfusion-nonfree-nvidia-driver
-  printf "Installing proprietary Nvidia driver\r\n" > /dev/tty1
+  echo "Installing proprietary Nvidia driver"
   dnf install -y \
     akmod-nvidia \
     kernel-devel-$(rpm -q kernel --queryformat=%{version}-%{release}) \
@@ -59,13 +63,13 @@ if $has_nvidia || $is_virtual; then
 fi
 
 # home should be a separate subvolume
-printf "Creating /home subvolume\r\n" > /dev/tty1
+echo "Creating /home subvolume"
 mv /home /tmp/
 btrfs subvolume create /home
 mv /tmp/home/* /home
 rmdir /tmp/home
 
-printf "Configuring swap-on-zram\r\n" > /dev/tty1
+echo "Configuring swap-on-zram"
 cat << EOF > /etc/systemd/zram-generator.conf
 [zram0]
 # This section describes the settings for /dev/zram0.
@@ -86,4 +90,5 @@ memory-limit = none
 # The default is 0.25.
 zram-fraction = 0.5
 EOF
+} 2>&1 | tee /root/postinstall.log > /dev/tty3
 %end

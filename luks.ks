@@ -1,1 +1,1 @@
-luks-btrfs-zram-nvidia-minimal.ks
+luks-btrfs-zram-nvidia-ws.ks
