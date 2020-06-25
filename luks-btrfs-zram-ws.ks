@@ -2,8 +2,6 @@
 
 %include snippets/zram.ks
 
-%include snippets/nvidia.ks
-
 %include snippets/workstation.ks
 
 # test changes in one of the minimal kickstarts

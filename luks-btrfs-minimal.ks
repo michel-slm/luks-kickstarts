@@ -1,9 +1,13 @@
+# based on example-minimal
+# https://fedoraproject.org/wiki/QA:Testcase_Kickstart_Http_Server_Ks_Cfg
+# https://fedorapeople.org/groups/qa/kickstarts/example-minimal.ks
+# + https://github.com/rhinstaller/kickstart-tests/blob/master/btrfs-1.ks.in
+# + https://fedoraproject.org/wiki/Changes/SwapOnZRAM
 install
-rootpw --plaintext fedora
-auth --enableshadow --passalgo=sha512
+rootpw --lock
 keyboard --vckeymap=us --xlayouts='us'
 lang en_US.UTF-8
-timezone --isUtc Atlantic/Reykjavik
+timezone America/Los_Angeles --utc
 network --activate
 
 text
@@ -12,7 +16,14 @@ text
 zerombr
 bootloader
 clearpart --all --initlabel
-autopart --type=btrfs --encrypted
+part /boot --fstype=ext4 --size=1024
+part btrfs.main --fstype=btrfs --encrypted --grow
+
+btrfs none --label=fedora-btrfs btrfs.main
+btrfs / --subvol --name=root fedora-btrfs
+btrfs /home --subvol --name=home fedora-btrfs
+btrfs /var/log --subvol --name=var_log fedora-btrfs
+btrfs /var/lib/libvirt/images --subvol --name=libvirt_images fedora-btrfs
 
 # Package source
 # There's currently no way of using default online repos in a kickstart, see:
@@ -24,7 +35,15 @@ repo --name=fedora
 repo --name=updates
 #repo --name=updates-testing
 
+# make sure that initial-setup runs and lets us do all the configuration bits
+firstboot --reconfig
+
 %packages
 @^minimal-environment
+initial-setup
 %end
 
+%post
+# https://unix.stackexchange.com/a/351755 for handling TTY in anaconda
+printf "Press Alt-F3 to view post-install logs\r\n" > /dev/tty1
+%end
