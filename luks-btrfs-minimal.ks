@@ -17,7 +17,7 @@ zerombr
 bootloader
 clearpart --all --initlabel
 part /boot --fstype=ext4 --size=1024
-part btrfs.main --fstype=btrfs --encrypted --grow
+part btrfs.main --fstype=btrfs --encrypted --grow --fsoptions="compress=zstd:1,space_cache=v2"
 
 btrfs none --label=fedora-btrfs btrfs.main
 btrfs / --subvol --name=root fedora-btrfs
@@ -46,4 +46,8 @@ initial-setup
 %post
 # https://unix.stackexchange.com/a/351755 for handling TTY in anaconda
 printf "Press Alt-F3 to view post-install logs\r\n" > /dev/tty1
+{
+echo "Turning off copy-on-write for libvirt images directory"
+chattr +C /var/lib/libvirt/images
+} 2>&1 | tee -a /root/postinstall.log > /dev/tty3
 %end
