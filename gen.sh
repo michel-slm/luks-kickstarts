@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DEST=ks.cfg
+DESTDIR=kickstart
+KS=${DESTDIR}/ks.cfg
 
 print_usage () {
   echo Usage: $0 ksfile
@@ -13,6 +14,7 @@ then
 fi
 
 pushd $(dirname $0) >/dev/null
-ksflatten -c $1 -o $DEST
-ksvalidator $DEST
+mkdir -p ${DESTDIR}
+ksflatten -c $1 -o ${KS}
+ksvalidator ${KS}
 popd >/dev/null
