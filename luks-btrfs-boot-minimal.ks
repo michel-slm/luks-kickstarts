@@ -16,9 +16,10 @@ text
 zerombr
 bootloader
 clearpart --all --initlabel
-part /boot --fstype=btrfs --size=1024
+part btrfs.boot --fstype=btrfs --size=1024
 part btrfs.main --fstype=btrfs --encrypted --grow --fsoptions="compress=zstd:1,space_cache=v2"
 
+btrfs /boot --label=fedora-boot btrfs.boot
 btrfs none --label=fedora-btrfs btrfs.main
 btrfs / --subvol --name=root fedora-btrfs
 btrfs /home --subvol --name=home fedora-btrfs
