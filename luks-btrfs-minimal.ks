@@ -13,20 +13,6 @@ timezone America/Los_Angeles --utc
 
 text
 
-# Wipe all disk
-zerombr
-bootloader
-clearpart --all --initlabel
-reqpart
-part /boot --fstype=ext4 --size=1024
-part btrfs.main --fstype=btrfs --encrypted --grow --fsoptions="compress=zstd:1,discard=async,space_cache=v2" --passphrase="fedora"
-
-btrfs none --label=fedora-btrfs btrfs.main
-btrfs / --subvol --name=root fedora-btrfs
-btrfs /home --subvol --name=home fedora-btrfs
-btrfs /var/log --subvol --name=var_log fedora-btrfs
-btrfs /var/lib/libvirt/images --subvol --name=libvirt_images fedora-btrfs
-
 # Package source
 # There's currently no way of using default online repos in a kickstart, see:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1333362

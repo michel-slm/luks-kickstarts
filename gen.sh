@@ -18,3 +18,8 @@ mkdir -p ${DESTDIR}
 ksflatten -c $1 -o ${KS}
 ksvalidator ${KS}
 popd >/dev/null
+
+if [[ "$1" =~ "btrfs" ]]; then
+  echo Patching in btrfs configuration
+  cat extrasnippets/btrfs.ks >> ${KS}
+fi
