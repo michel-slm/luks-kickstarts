@@ -2,10 +2,11 @@
 Kickstarts demonstrating automated provisioning with LUKS
 
 ## Requirements
-Ansible (to rebuild the ISO)
+- pykickstart (for ksflatten and ksvalidate)
+- lorax (for mkksiso and dependent tools like xorriso)
 
 ## Usage
 ```
 ./gen.sh KICKSTARTFILE
-./rebuild.sh
+./rebuild.sh SRCISO VOLID
 ```

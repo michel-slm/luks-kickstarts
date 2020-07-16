@@ -1,4 +1,0 @@
-[submodule "roles/build_boot_iso"]
-	path = roles/build_boot_iso
-	url = https://github.com/michel-slm/build_boot_iso.git
-	branch = run-as-normal-user
