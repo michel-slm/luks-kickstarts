@@ -1,5 +1,3 @@
-%include luks-btrfs-minimal.ks
-
-%include snippets/zram.ks
+%include luks-btrfs-zram-minimal.ks
 
 %include snippets/nvidia.ks

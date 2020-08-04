@@ -1,8 +1,7 @@
-%include luks-btrfs-minimal.ks
-
-%include snippets/zram.ks
+%include bases/luks-btrfs-minimal.ks
 
 %include snippets/workstation.ks
+%include snippets/zram.ks
 
 # see if we can activate the WiFi adapter this way
 graphical
