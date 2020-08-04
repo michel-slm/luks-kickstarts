@@ -24,11 +24,11 @@ repo --name=updates
 #repo --name=updates-testing
 
 # make sure that initial-setup runs and lets us do all the configuration bits
-firstboot --reconfig
+# firstboot --reconfig
 
 %packages
 @^minimal-environment
-initial-setup
+# initial-setup
 %end
 
 %post

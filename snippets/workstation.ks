@@ -1,6 +1,6 @@
 %packages
 @^workstation-product-environment
-initial-setup-gui
+# initial-setup-gui
 %end
 
 %post
