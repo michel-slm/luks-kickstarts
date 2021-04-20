@@ -1,4 +1,7 @@
 # luks-kickstarts
+
+> :warning: **archived**: This has been superseded by [facebookincubator/linux-desktop-kickstarts](https://github.com/facebookincubator/linux-desktop-kickstarts)
+
 Kickstarts demonstrating automated provisioning with LUKS
 
 ## Requirements
